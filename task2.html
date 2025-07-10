@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 2: Secure Ubuntu EC2 Instance</title>
+  <style>
+    :root {
+      --primary: #00796b;
+      --secondary: #b2dfdb;
+      --accent: #ff5722;
+      --dark: #263238;
+      --light: #e0f7fa;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 0 0 10px 10px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
+    
+    .task-description {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .step {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    
+    .step-title {
+      display: inline;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    
+    .screenshot-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .screenshot {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .screenshot:hover {
+      transform: translateY(-5px);
+    }
+    
+    .screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .screenshot-caption {
+      padding: 12px;
+      background: white;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+    
+    .code-block {
+      background: #f5f5f5;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin: 20px 0;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .note {
+      background: #e8f5e9;
+      border-left: 4px solid var(--accent);
+      padding: 15px;
+      margin: 20px 0;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #757575;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .steps-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .screenshot-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Task 2: Launch a Secure Ubuntu EC2 Instance</h1>
+      <div class="subtitle">AWS Infrastructure Deployment with Terraform</div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <section class="task-description">
+      <h2>Task Overview</h2>
+      <p>This task involves launching a secure Ubuntu EC2 instance in AWS with SSH and HTTPS access using the default VPC and the latest official Ubuntu AMI. The deployment will be managed using Terraform for infrastructure as code.</p>
+      
+      <div class="note">
+        <strong>Key Requirements:</strong> 
+        <ul>
+          <li>Use the latest Ubuntu AMI</li>
+          <li>Configure security groups for SSH (port 22) and HTTPS (port 443) access</li>
+          <li>Utilize the default VPC</li>
+          <li>Generate and use a new key pair for SSH access</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3 class="step-title">Terraform Configuration</h3>
+        <p>Create main.tf with resource definitions for:</p>
+        <ul>
+          <li>AWS provider configuration</li>
+          <li>EC2 instance with Ubuntu AMI</li>
+          <li>Security group rules</li>
+          <li>Key pair generation</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3 class="step-title">Initialize Terraform</h3>
+        <p>Run <code>terraform init</code> to:</p>
+        <ul>
+          <li>Initialize the backend</li>
+          <li>Download required providers</li>
+          <li>Prepare the working directory</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3 class="step-title">Plan & Apply</h3>
+        <p>Execute the deployment:</p>
+        <ul>
+          <li><code>terraform plan</code> to review changes</li>
+          <li><code>terraform apply</code> to create resources</li>
+          <li>Verify output for instance details</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Terraform Configuration</h2>
+      <div class="code-block">
+        # main.tf - Secure Ubuntu EC2 Instance
+        provider "aws" {
+          region = "us-east-1"
+        }
+        
+        resource "aws_instance" "ubuntu_server" {
+          ami           = data.aws_ami.ubuntu.id
+          instance_type = "t2.micro"
+          key_name      = aws_key_pair.ssh_key.key_name
+          
+          vpc_security_group_ids = [aws_security_group.allow_ssh_https.id]
+          
+          tags = {
+            Name = "Secure-Ubuntu-Server"
+          }
+        }
+        
+        # Additional resources for key pair, security group, etc.
+      </div>
+    </section>
+    
+    <section>
+      <h2>Implementation Screenshots</h2>
+      <div class="screenshot-gallery">
+        <div class="screenshot">
+          <img src="1 (6).png" alt="Terraform Configuration - Part 1">
+          <div class="screenshot-caption">Terraform Configuration (Part 1)</div>
+        </div>
+        
+     
+        
+        
+      
+        
+        <div class="screenshot">
+          <img src="1 (5).png" alt="Terraform Apply ">
+          <div class="screenshot-caption">Terraform Apply </div>
+        </div>
+        
+      
+       
+        <div class="screenshot">
+          <img src="1 (1).png" alt="EC2 Instance Running">
+          <div class="screenshot-caption">EC2 Instance Running in AWS Console</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="note">
+      <h3>Verification Steps</h3>
+      <ol>
+        <li>Check the AWS Management Console to verify the instance is running</li>
+        <li>Attempt SSH connection using the generated key pair</li>
+        <li>Review security group rules to ensure only necessary ports are open</li>
+        <li>Run <code>terraform show</code> to inspect current state</li>
+      </ol>
+    </section>
+    
+    <section>
+      <h2>Cleanup Instructions</h2>
+      <p>To destroy the created resources and avoid unnecessary AWS charges:</p>
+      <div class="code-block">
+        $ terraform destroy
+      </div>
+      <p>Confirm the destruction when prompted and verify all resources are terminated in the AWS console.</p>
+    </section>
+    
+    <footer>
+      <p>Task completed by Monalisha (Roll No: 34, Section: 06, Reg No: 12219996)</p>
+      <p>© 2023 Cloud Infrastructure Deployment</p>
+    </footer>
+  </div>
+</body>
+</html>

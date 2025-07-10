@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile & Terraform Guide</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --text: #2d3748;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Student Profile Section */
+        .student-profile {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .profile-icon {
+            font-size: 60px;
+            color: var(--primary);
+            margin-right: 30px;
+            background: linear-gradient(145deg, #eef2ff, #d9e0ff);
+            padding: 25px;
+            border-radius: 50%;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .student-info h2 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .student-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: var(--dark);
+            display: inline-block;
+            min-width: 100px;
+        }
+        
+        /* Terraform Documentation Section */
+        .terraform-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .section-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .terraform-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .terraform-image:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 25px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            border-left: 4px solid var(--secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .note {
+            background: linear-gradient(to right, #e3f9e5, #f0fdf4);
+            border-left: 4px solid var(--secondary);
+            padding: 18px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* Task Navigation */
+        .task-nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            text-align: center;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+        
+        .dropbtn {
+            background: linear-gradient(to right, var(--primary), #6366f1);
+            color: white;
+            padding: 14px 28px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: 500;
+        }
+        
+        .dropbtn:hover {
+            background: linear-gradient(to right, #4338ca, #4f46e5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .dropdown-content a {
+            color: var(--dark);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8fafc;
+            color: var(--primary);
+            padding-left: 25px;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(to right, var(--primary), #6366f1);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .student-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .student-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .dropdown-content {
+                min-width: 140px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Student Profile Section -->
+        <div class="student-profile">
+            <div class="profile-icon">👩‍🎓</div>
+            <div class="student-info">
+                <h2>Student Information</h2>
+                <div class="student-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Name:</span> Monalisha
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Roll No:</span> 37
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Section:</span> 06
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Reg No:</span> 12219996
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Task Navigation -->
+     <div class="task-nav">
+    <div class="dropdown">
+        <button class="dropbtn">Select Task</button>
+        <div class="dropdown-content" style="display: block; position: relative; z-index: 1000; box-shadow: none;">
+            <a href="task1.html">Task 1</a>
+            <a href="task2.html">Task 2</a>
+            <a href="task3.html">Task 3</a>
+            <a href="task4.html">Task 4</a>
+        </div>
+    </div>
+</div>
+        <!-- Terraform Documentation Section -->
+        <div class="terraform-section">
+            <h1 class="section-title">Terraform Documentation</h1>
+            
+            <h2>What is Terraform?</h2>
+            <p>Terraform is an open-source infrastructure as code (IaC) tool created by HashiCorp. It enables you to safely and predictably create, change, and improve infrastructure using declarative configuration files.</p>
+            
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi-VzhOakHfhp60dhEuSsf4sdUqMmjMbJM9A&s" alt="Terraform Logo" class="terraform-image">
+            
+            <h2>Key Features</h2>
+            <ul>
+                <li><strong>Infrastructure as Code:</strong> Infrastructure is described using a high-level configuration syntax.</li>
+                <li><strong>Execution Plans:</strong> Terraform generates an execution plan describing what it will do to reach the desired state.</li>
+                <li><strong>Resource Graph:</strong> Terraform builds a graph of all your resources and parallelizes the creation and modification.</li>
+                <li><strong>Change Automation:</strong> Complex changesets can be applied to your infrastructure with minimal human interaction.</li>
+            </ul>
+            
+            <h2>Terraform Initialization</h2>
+            <p>The <code>terraform init</code> command is used to initialize a working directory containing Terraform configuration files.</p>
+            
+            <div class="code-block">
+                $ terraform init
+                <br><br>
+                Initializing the backend...
+                <br><br>
+                Initializing provider plugins...
+                <br>
+               - Finding latest version of hashicorp/aws...
+                <br>
+               - Installing hashicorp/aws v3.42.0...
+                <br>
+               - Installed hashicorp/aws v3.42.0 (signed by HashiCorp)
+                <br><br>
+                Terraform has been successfully initialized!
+            </div>
+            
+            <div class="note">
+                <strong>Note:</strong> The <code>terraform init</code> command is always safe to run multiple times, though subsequent runs may give adjustment messages.
+            </div>
+            
+            <h2>Basic Terraform Workflow</h2>
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20230606114940/Terraform-flow-chartr-(2).webp" alt="Terraform Workflow" class="terraform-image">
+            
+            <ol>
+                <li><strong>Write:</strong> Define resources in configuration files</li>
+                <li><strong>Initialize:</strong> Run <code>terraform init</code> to download providers</li>
+                <li><strong>Plan:</strong> Run <code>terraform plan</code> to see execution plan</li>
+                <li><strong>Apply:</strong> Run <code>terraform apply</code> to create resources</li>
+                <li><strong>Destroy:</strong> Run <code>terraform destroy</code> to clean up resources</li>
+            </ol>
+            
+            <h2>Example Terraform Configuration</h2>
+            <p>Here's a simple example to create an AWS EC2 instance:</p>
+            
+            <div class="code-block">
+                # Configure the AWS Provider
+                provider "aws" {
+                  region = "us-west-2"
+                }
+                <br>
+                # Create a web server
+                resource "aws_instance" "web" {
+                  ami           = "ami-0c55b159cbfafe1f0"
+                  instance_type = "t2.micro"
+                <br>
+                  tags = {
+                    Name = "ExampleServer"
+                  }
+                }
+            </div>
+            
+            <h2>Terraform State</h2>
+            <p>Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources to your configuration.</p>
+            <img src="https://miro.medium.com/v2/resize:fit:1123/1*GOPPFn7pxOKrwYBw6GsIXg.png" alt="Terraform State" class="terraform-image">
+            
+            <h2>Common Commands</h2>
+            <table>
+                <tr>
+                    <th>Command</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>terraform init</code></td>
+                    <td>Initialize a Terraform working directory</td>
+                </tr>
+                <tr>
+                    <td><code>terraform plan</code></td>
+                    <td>Generate and show an execution plan</td>
+                </tr>
+                <tr>
+                    <td><code>terraform apply</code></td>
+                    <td>Build or change infrastructure</td>
+                </tr>
+                <tr>
+                    <td><code>terraform destroy</code></td>
+                    <td>Destroy Terraform-managed infrastructure</td>
+                </tr>
+                <tr>
+                    <td><code>terraform fmt</code></td>
+                    <td>Rewrite configuration files to canonical format</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
