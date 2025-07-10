@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 4: Static Website on S3</title>
+  <style>
+    :root {
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--light) 0%, #e6f0ff 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+      margin-bottom: 40px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-top: 15px;
+    }
+    
+    .task-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    
+    .objective {
+      background: #f8f5ff;
+      border-left: 4px solid var(--primary);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .step {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+    
+    .step-number {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      line-height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      font-weight: bold;
+    }
+    
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      overflow-x: auto;
+      margin: 25px 0;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .note {
+      background: #e3f2fd;
+      border-left: 4px solid var(--secondary);
+      padding: 18px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .screenshot {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin: 20px 0;
+      border: 1px solid #eee;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      .steps-container {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Task 4: Static Website on S3</h1>
+      <div class="subtitle">Hosting "ByteWave Solutions" website using Terraform</div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="task-card">
+      <h2>Activity 1: Launch a Static Website on S3</h2>
+      
+      <div class="objective">
+        <strong>Objective:</strong> Host a basic HTML webpage on an AWS S3 bucket using Terraform.
+      </div>
+      
+      <h3>Scenario:</h3>
+      <p>ByteWave Solutions, a startup, wants to showcase their services through a static website hosted on AWS. They want a simple setup with no server maintenance.</p>
+      
+      <div class="note">
+        <strong>Requirements:</strong>
+        <ul>
+          <li>S3 bucket named <code>bytewave-website-[your_initials]</code></li>
+          <li>Static website hosting enabled with index.html</li>
+          <li>Block all public access settings</li>
+          <li>Bucket policy for public read access</li>
+          <li>Upload sample index.html</li>
+          <li>Output website endpoint URL</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <h2>Terraform Implementation Steps</h2>
+      
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Create S3 Bucket</h3>
+          <p>Configure the S3 bucket with your initials in the name:</p>
+          <div class="code-block">
+resource "aws_s3_bucket" "bytewave_website" {
+  bucket = "bytewave-website-mk"  # Replace with your initials
+  acl    = "private"
+}
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Enable Website Hosting</h3>
+          <p>Configure static website hosting:</p>
+          <div class="code-block">
+resource "aws_s3_bucket_website_configuration" "bytewave_config" {
+  bucket = aws_s3_bucket.bytewave_website.id
+
+  index_document {
+    suffix = "index.html"
+  }
+}
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Set Public Access</h3>
+          <p>Block all public access while allowing the policy to override:</p>
+          <div class="code-block">
+resource "aws_s3_bucket_public_access_block" "bytewave_access" {
+  bucket = aws_s3_bucket.bytewave_website.id
+
+  block_public_acls       = true
+  block_public_policy     = false  # Allow our policy to override
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+          </div>
+        </div>
+      </div>
+      
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3 class="step-title">Bucket Policy</h3>
+          <p>Allow public read access to objects:</p>
+          <div class="code-block">
+resource "aws_s3_bucket_policy" "bytewave_policy" {
+  bucket = aws_s3_bucket.bytewave_website.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.bytewave_website.arn}/*"
+      }
+    ]
+  })
+}
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">5</div>
+          <h3 class="step-title">Upload index.html</h3>
+          <p>Upload via AWS Console or CLI:</p>
+          <div class="code-block">
+# Sample CLI command (run after Terraform creates bucket)
+aws s3 cp index.html s3://bytewave-website-mk/
+          </div>
+          <p>Sample index.html:</p>
+          <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;ByteWave Solutions&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to ByteWave Solutions&lt;/h1&gt;
+  &lt;p&gt;Innovative tech solutions for your business&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">6</div>
+          <h3 class="step-title">Output Website URL</h3>
+          <p>Add this to your Terraform configuration:</p>
+          <div class="code-block">
+output "website_url" {
+  value = aws_s3_bucket_website_configuration.bytewave_config.website_endpoint
+}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <h2>Complete Terraform Configuration</h2>
+      <div class="code-block">
+# main.tf - Complete configuration
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "bytewave_website" {
+  bucket = "bytewave-website-mk"  # Replace with your initials
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_website_configuration" "bytewave_config" {
+  bucket = aws_s3_bucket.bytewave_website.id
+  index_document { suffix = "index.html" }
+}
+
+resource "aws_s3_bucket_public_access_block" "bytewave_access" {
+  bucket = aws_s3_bucket.bytewave_website.id
+  block_public_acls       = true
+  block_public_policy     = false
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "bytewave_policy" {
+  bucket = aws_s3_bucket.bytewave_website.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow",
+      Principal = "*",
+      Action    = "s3:GetObject",
+      Resource  = "${aws_s3_bucket.bytewave_website.arn}/*"
+    }]
+  })
+}
+
+output "website_url" {
+  value = aws_s3_bucket_website_configuration.bytewave_config.website_endpoint
+}
+      </div>
+      
+      <div class="note">
+        <strong>Implementation Steps:</strong>
+        <ol>
+          <li>Save the configuration to main.tf</li>
+          <li>Run <code>terraform init</code></li>
+          <li>Run <code>terraform plan</code></li>
+          <li>Run <code>terraform apply</code></li>
+          <li>Upload index.html file to the bucket</li>
+          <li>Access the website using the output URL</li>
+        </ol>
+      </div>
+    </div>
+    
+    <footer>
+      <p>Task completed by Monalisha (Roll No: 37, Section: 06, Reg No: 12219996)</p>
+      <p>© 2023 Cloud Infrastructure Deployment</p>
+    </footer>
+  </div>
+</body>
+</html>
