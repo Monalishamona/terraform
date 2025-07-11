@@ -171,8 +171,34 @@
         </ul>
       </div>
     </div>
-    
     <div class="task-card">
+  <h2>Implementation Steps with Screenshots</h2>
+
+  <div class="steps-container">
+    <div class="step">
+      <div class="step-number">1</div>
+      <h3>Write Terraform Code</h3>
+      <p>Create the <code>main.tf</code> file and define the S3 bucket, website config, and policy using Terraform.</p>
+      <img src="t1.png" alt="main.tf Terraform code" class="screenshot" />
+    </div>
+
+    <div class="step">
+      <div class="step-number">2</div>
+      <h3>Terraform Apply</h3>
+      <p>Initialize and apply the Terraform configuration using the command line. Confirm by typing <code>yes</code>.</p>
+      <img src="t2.png" alt="Terraform apply output" class="screenshot" />
+    </div>
+
+    <div class="step">
+      <div class="step-number">3</div>
+      <h3>Access Deployed Website</h3>
+      <p>Open the output URL shown after <code>terraform apply</code>. Your static site is now live on S3!</p>
+      <img src="t3.png" alt="S3 static website preview" class="screenshot" />
+    </div>
+  </div>
+</div>
+
+    <!-- <div class="task-card">
       <h2>Terraform Implementation Steps</h2>
       
       <div class="steps-container">
@@ -277,7 +303,7 @@ output "website_url" {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     
     <div class="task-card">
       <h2>Complete Terraform Configuration</h2>
